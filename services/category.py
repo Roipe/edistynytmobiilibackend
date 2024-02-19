@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException
 
 import models
-import models_old
+# import models_old
 from dependencies import LoggedInUser
 from dtos.category import EditCategoryReq
 from dtos.rental_item import AddItemToCategoryReq

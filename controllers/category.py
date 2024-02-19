@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Path
 
 import models
-import models_old
+#import old
 from dependencies import Admin, require_admin, LoggedInUser
 from dtos.category import GetAllCategoriesRes, AddNewCategoryReq, AddNewCategoryRes, EditCategoryReq
 from dtos.rental_item import GetItemsByCategory, AddItemToCategoryReq, RentalItemByCategory
