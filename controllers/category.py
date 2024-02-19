@@ -25,7 +25,7 @@ async def edit_category(service: CatServ, req: EditCategoryReq, category_id: int
     return category
 
 
-@router.post('/', dependencies=[Depends(require_admin)])
+@router.post('/')
 async def add_new_category(service: CatServ, req: AddNewCategoryReq) -> AddNewCategoryRes:
     category = models.Category(**req.model_dump())
     service.create(category)

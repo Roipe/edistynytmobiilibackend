@@ -21,7 +21,7 @@ class AuthService(BaseService):
     def register(self, user: models.AuthUser):
         role = self.db.query(models.AuthRole).filter(models.AuthRole.role_name == 'user').first()
         if role is None:
-            raise HTTPException(status=404, detail='role not found')
+            raise HTTPException(status_code=404, detail='role not found')
         user.created_at = datetime.datetime.now()
         user.auth_role_auth_role = role
         user.password = bcrypt_context.hash(user.password)
