@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Path
 
 import models
-#import old
+# import old
 from dependencies import Admin, require_admin, LoggedInUser
-from dtos.category import GetAllCategoriesRes, AddNewCategoryReq, AddNewCategoryRes, EditCategoryReq
+from dtos.category import GetAllCategoriesRes, AddNewCategoryReq, AddNewCategoryRes, EditCategoryReq, GetCategoryRes
 from dtos.rental_item import GetItemsByCategory, AddItemToCategoryReq, RentalItemByCategory
 from services.category import CatServ
 
@@ -30,6 +30,12 @@ async def add_new_category(service: CatServ, req: AddNewCategoryReq) -> AddNewCa
     category = models.Category(**req.model_dump())
     service.create(category)
     return category
+
+
+@router.get('/{category_id}')
+async def get_category_by_id(service: CatServ, category_id: int = Path(gt=0)) -> GetCategoryRes:
+    category = service.get_category_by_id(category_id)
+    return {'category': category}
 
 
 @router.get('/')
