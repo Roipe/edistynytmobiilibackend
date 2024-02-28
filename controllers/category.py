@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Path
 
 import models
-#import old
+# import old
 from dependencies import Admin, require_admin, LoggedInUser
-from dtos.category import GetAllCategoriesRes, AddNewCategoryReq, AddNewCategoryRes, EditCategoryReq
+from dtos.category import GetAllCategoriesRes, AddNewCategoryReq, AddNewCategoryRes, EditCategoryReq, Category
 from dtos.rental_item import GetItemsByCategory, AddItemToCategoryReq, RentalItemByCategory
 from services.category import CatServ
 
@@ -13,13 +13,13 @@ router = APIRouter(
 )
 
 
-@router.delete('/{category_id}', dependencies=[Depends(require_admin)])
+@router.delete('/{category_id}')
 async def remove_category(service: CatServ, category_id: int = Path(gt=0)):
     service.remove(category_id)
     return ""
 
 
-@router.put('/{category_id}', dependencies=[Depends(require_admin)])
+@router.put('/{category_id}')
 async def edit_category(service: CatServ, req: EditCategoryReq, category_id: int = Path(gt=0)) -> AddNewCategoryRes:
     category = service.edit_category(req, category_id)
     return category
@@ -36,6 +36,12 @@ async def add_new_category(service: CatServ, req: AddNewCategoryReq) -> AddNewCa
 async def get_all_categories(service: CatServ) -> GetAllCategoriesRes:
     categories = service.get_all()
     return {'categories': categories}
+
+
+@router.get('/{category_id}')
+async def get_category_by_id(service: CatServ, category_id: int = Path(gt=0)) -> Category:
+    cat = service.get_category_by_id(category_id)
+    return cat
 
 
 @router.get('/{category_id}/items')

@@ -27,10 +27,10 @@ class CategoryService(BaseService):
         return self.db.query(models.Category).filter(models.Category.category_id == _id).first()
 
     def remove(self, _id: int):
-        user = self.get_category_by_id(_id)
-        if user is None:
-            raise HTTPException(status_code=404, detail='user not found')
-        self.db.delete(user)
+        cat = self.get_category_by_id(_id)
+        if cat is None:
+            raise HTTPException(status_code=404, detail='category not found')
+        self.db.delete(cat)
         self.db.commit()
 
     def edit_category(self, req: EditCategoryReq, _id: int):
