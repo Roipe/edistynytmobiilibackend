@@ -12,12 +12,17 @@ class GetAllCategoriesRes(BaseModel):
     categories: List[Category]
 
 
+class GetCategoryRes(BaseModel):
+    category: Category
+
+
 class AddNewCategoryReq(BaseModel):
     category_name: str
 
 
 class AddNewCategoryRes(AddNewCategoryReq):
     category_id: int
+
 
 class EditCategoryReq(BaseModel):
     category_name: str
