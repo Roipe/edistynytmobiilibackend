@@ -111,7 +111,7 @@ class AuthUser(Base):
 class RentalItem(Base):
     __tablename__ = 'rental_item'
     __table_args__ = (
-        Index('serial_number_unique', 'serial_number', unique=True),
+        #Index('serial_number_unique', 'serial_number', unique=True),
         ForeignKeyConstraint(['category_category_id'], ['category.category_id'], name='fk_rental_item_category1'),
         ForeignKeyConstraint(['created_by_user_id'], ['auth_user.auth_user_id'], name='fk_rental_item_auth_user1'),
         ForeignKeyConstraint(['rental_item_state_rental_item_state_id'], ['rental_item_state.rental_item_state_id'],
@@ -128,8 +128,8 @@ class RentalItem(Base):
     created_by_user_id = mapped_column(Integer, nullable=False)
     rental_item_state_rental_item_state_id = mapped_column(Integer, nullable=False)
     category_category_id = mapped_column(Integer, nullable=False)
-    rental_item_description = mapped_column(Text)
-    serial_number = mapped_column(String(45), nullable=False)
+    # rental_item_description = mapped_column(Text)
+    # serial_number = mapped_column(String(45), nullable=False)
     deleted_at = mapped_column(DateTime)
 
     category_category: Mapped['Category'] = relationship('Category', back_populates='rental_item')
