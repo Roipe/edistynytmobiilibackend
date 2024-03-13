@@ -18,8 +18,8 @@ class GetItemsByCategory(BaseModel):
 
 class AddItemToCategoryReq(BaseModel):
     rental_item_name: str
-    rental_item_description: Optional[str]
-    serial_number: Optional[str]
+    # rental_item_description: Optional[str]
+    # serial_number: Optional[str]
 
 
 class AddFeatureReq(BaseModel):
