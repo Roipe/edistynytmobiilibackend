@@ -45,11 +45,11 @@ class GetItemRes(BaseModel):
     rental_item_id: int
     created_by_user: RegisterRes
     category_category: Category
-    serial_number: str
+    #serial_number: str
     rental_item_name: str
     created_at: datetime.datetime
     rental_item_state_rental_item_state: RentalItemState
-    rental_item_description: str
+    # rental_item_description: str
     deleted_at: Optional[datetime.datetime]
 
 

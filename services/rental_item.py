@@ -13,7 +13,10 @@ class RentalItemService(BaseService):
         super(RentalItemService, self).__init__(db)
 
     def get_item_by_id(self, _id) -> models.RentalItem:
-        return self.db.query(models.RentalItem).filter(models.RentalItem.rental_item_id == _id).first()
+        item = self.db.query(models.RentalItem).filter(models.RentalItem.rental_item_id == _id).first()
+        if item is None:
+            raise HTTPException(detail='item not found', status_code=404)
+        return item
 
     def get_feature_by_id(self, _id) -> models.RentalItemFeature:
         return self.db.query(models.RentalItemFeature).filter(
