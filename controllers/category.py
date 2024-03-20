@@ -63,9 +63,8 @@ async def get_items_by_category(service: CatServ, category_id: int = Path(gt=0))
 async def add_item_to_category(service: CatServ, req: AddItemToCategoryReq,
                                _account: LoggedInUser,
                                category_id: int = Path(gt=0)) -> RentalItemByCategory:
-    print("############# req", req)
     if _account is None and req.created_by_user_id is None:
-        raise HTTPException(status_code=401, detail="unauthorized!!!!!!")
+        raise HTTPException(status_code=401, detail="unauthorized")
     elif _account is not None:
         req.created_by_user_id = _account.auth_user_id
 

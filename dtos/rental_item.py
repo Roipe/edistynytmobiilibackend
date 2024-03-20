@@ -28,6 +28,10 @@ class AddFeatureReq(BaseModel):
     value: str
 
 
+class RentItemReq(BaseModel):
+    auth_user_auth_user_id: Optional[int]
+
+
 class EditItemReq(BaseModel):
     rental_item_name: str
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Annotated
 
 from fastapi import HTTPException, Depends
@@ -40,6 +41,41 @@ class RentalItemService(BaseService):
         item.rental_item_name = req.rental_item_name
         self.db.commit()
         return item
+
+    def rent_item(self, _id, req):
+        item = self.get_item_by_id(_id)
+        if item is None:
+            raise HTTPException(status_code=404, detail='item not found1')
+        if item.rental_item_state_rental_item_state.rental_item_state != 'free':
+            raise HTTPException(status_code=404,
+                                detail='item not found2  ' + item.rental_item_state_rental_item_state.rental_item_state)
+        state_id = self.db.query(models.RentalItemState).filter(
+            models.RentalItemState.rental_item_state == 'reserved').first().rental_item_state_id
+        item.rental_item_state_rental_item_state_id = state_id
+        # self.db.commit()
+        state_id = self.db.query(models.RentalTransactionState).filter(
+            models.RentalTransactionState.rental_transaction_state == 'reserved').first().rental_transaction_state_id
+        rental_transaction = models.RentalTransaction(
+            created_at=datetime.now(),
+            rental_item_rental_item_id=_id,
+            auth_user_auth_user_id=req.auth_user_auth_user_id,
+            rental_transaction_state_rental_transaction_state_id=state_id
+
+        )
+
+        self.db.add(rental_transaction)
+        self.db.commit()
+
+    def delete_item_by_id(self, _id):
+        item = self.get_item_by_id(_id)
+        if item is None:
+            raise HTTPException(status_code=404, detail='item not found')
+        self.db.query(models.RentalTransaction).filter(
+            models.RentalTransaction.rental_item_rental_item_id == item.rental_item_id).delete()
+        self.db.query(models.RentalItemHasRentalItemFeature).filter(
+            models.RentalItemHasRentalItemFeature.rental_item_rental_item_id == item.rental_item_id).delete()
+        self.db.delete(item)
+        self.db.commit()
 
 
 def get_service(db: models.Db):
