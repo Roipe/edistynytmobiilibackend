@@ -53,4 +53,5 @@ def require_admin(_token: Token, service: AuthServ,
 
 
 LoggedInUser = Annotated[models.AuthUser, Depends(get_logged_in_user_optional)]
+RequireLoggedInUser = Annotated[models.AuthUser, Depends(get_logged_in_user)]
 Admin = Annotated[models.AuthUser, Depends(require_admin)]

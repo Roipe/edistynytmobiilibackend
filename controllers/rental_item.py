@@ -29,7 +29,7 @@ async def rent_item(service: RItemServ, req: RentItemReq, account: LoggedInUser,
     if account is None and req.auth_user_auth_user_id is None:
         raise HTTPException(status_code=401, detail="unauthorized")
     elif account is not None:
-        req.auth_user_auth_user_id = account.id
+        req.auth_user_auth_user_id = account.auth_user_id
     service.rent_item(rental_item_id, req)
     return ""
 

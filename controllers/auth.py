@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
 import models
-from dependencies import LoggedInUser
+from dependencies import LoggedInUser, RequireLoggedInUser
 
 from dtos.auth import RegisterReq, RegisterRes, LoginReq, LoginRes
 from services.auth import AuthServ
@@ -19,7 +19,7 @@ LoginForm = Annotated[OAuth2PasswordRequestForm, Depends()]
 
 
 @router.get('/account')
-async def get_account(_account: LoggedInUser):
+async def get_account(_account: RequireLoggedInUser):
     return _account
 
 
@@ -42,3 +42,11 @@ async def login(req: LoginReq, service: AuthServ, _token: Token) -> LoginRes:
     access_token, user = service.login(req, _token)
 
     return {'access_token': access_token, 'account': user}
+
+
+@router.post('/logout')
+async def login(service: AuthServ, account: LoggedInUser):
+    if account is not None:
+        service.logout(account)
+
+    return ""

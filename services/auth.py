@@ -33,6 +33,10 @@ class AuthService(BaseService):
         user = self.db.query(models.AuthUser).filter(models.AuthUser.access_jti == sub).first()
         return user
 
+    def logout(self, account):
+        account.access_jti = None
+        self.db.commit()
+
     def login(self, req: LoginReq, _token: Token):
 
         user = self.db.query(models.AuthUser).filter(models.AuthUser.username == req.username).first()
