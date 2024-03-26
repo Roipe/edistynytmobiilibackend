@@ -57,7 +57,7 @@ class CategoryService(BaseService):
         rental_item.created_at = datetime.datetime.now()
         # rental_item.created_by_user_id = _account.auth_user_id
         state = self.db.query(models.RentalItemState).filter(models.RentalItemState.rental_item_state == 'free').first()
-        rental_item.rental_item_state_rental_item_state = state
+        rental_item.rental_item_state_rental_item_state_id = state.rental_item_state_id
         # if req.serial_number is None or req.serial_number == "":
         # rental_item.serial_number = str(uuid.uuid4())
         # pass
