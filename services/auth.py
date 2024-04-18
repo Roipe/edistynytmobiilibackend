@@ -22,7 +22,7 @@ class AuthService(BaseService):
         role = self.db.query(models.AuthRole).filter(models.AuthRole.role_name == 'user').first()
         if role is None:
             raise HTTPException(status_code=404, detail='role not found')
-        check = self.db.query(models.AuthUser).filter(models.AuthUser.username == user.username)
+        check = self.db.query(models.AuthUser).filter(models.AuthUser.username == user.username).first()
         if check is not None:
             raise HTTPException(status_code=409, detail='user already exists')
         user.created_at = datetime.datetime.now()
